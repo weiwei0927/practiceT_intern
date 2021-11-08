@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week7_FE2</title>
+</head>
+<body>
+    <fieldset>
+        <legend>隱藏資料:</legend>
+        <button id = "noFormSubmit">送出無表單資料</button>
+        <p id = "displayItemsRsp"></p>
+    </fieldset>
+
+    <script>
+        function PrivateData(ID, OS, Brand, GoogleAc, FacebookAC, Root, Temps) //objct constructor
+        {
+            this.ID = ID;
+            this.OS = OS;
+            this.Brand = Brand;
+            this.GoogleAc = GoogleAc;
+            this.FacebookAC = FacebookAC;
+            this.Root = Root;
+            this.Temp = Temp;
+        }
+        
+        const dataObj = {
+            "ID":666666666,
+            "OS" : "Android" ,
+            "Brand" : "Samsung",
+            "GoogleAc" : "TIntern@acccctoooon.com",
+            "FacebookAC":"粉穗杏 谷澤",
+            "Root": true,
+            "Temp" : 36.2
+        } ;
+
+        let btnSubmitJsonData = document.getElementById('noFormSubmit');
+        let showItemsRsp = document.getElementById('displayItemsRsp');
+
+        btnSubmitJsonData.onclick = function()
+        {
+            try
+            {
+                let xhr = new XMLHttpRequest();
+
+                //open the request
+                xhr.open('POST', 'http://59.120.19.161:7321/api/TestJSONDataMsg');
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                //send the form data
+                xhr.send(JSON.stringify(dataObj));
+                
+                xhr.onreadystatechange = function ()
+                {
+                    if (xhr.readyState == XMLHttpRequest.DONE)
+                    {
+                        const rspData = JSON.parse(xhr.responseText)
+                        showItemsRsp.innerHTML = JSON.stringify(rspData);
+                    }
+                }       
+            }
+            catch (error)
+            {
+                alert(error.message);
+            }
+        }
+
+    </script>
+</body>
+</html>
